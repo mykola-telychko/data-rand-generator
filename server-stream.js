@@ -38,8 +38,8 @@ function generateUniqueElArray(numLen, numType, count) {
     const uniqueNames = new Set();
 
     while (uniqueNames.size < count) {
-      const name = generateNumber(numLen, numType);
-      uniqueNames.add(name);
+      const num = generateNumber(numLen, numType);
+      uniqueNames.add(num);
     }
     return Array.from(uniqueNames);
 }

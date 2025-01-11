@@ -1,1 +1,4 @@
 check generator from kivi project
+
+- generate addresess
+- save in slavName file idpass for check duplicates
