@@ -2,3 +2,15 @@ check generator from kivi project
 
 - generate addresess
 - save in slavName file idpass for check duplicates
+
+- common api for get array-of-objects [tpcode, idpas, address] / then I have a low quantity of items
+
+Passport web for (slavic names) (new params for DRG country=ua / pl )
+
+https://codepen.io/xpirellod/pen/RwmXXdW
+
+https://codepen.io/telychko-mykola/pen/yyBKQKR
+
+https://codepen.io/lothiela/pen/qBYodPe
+
+https://codepen.io/jacobbridges/pen/YjLezZ
