@@ -1,2 +1,7 @@
 {"portJsonServer": 10,
- "portSreamServer": 12}
+ "portSreamServer": 12,
+ "streets": {
+    
+ }
+
+}

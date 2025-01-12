@@ -13,3 +13,6 @@ server-stream
 
 server-idpass
  http://localhost:3000/api/generate?number=integer&numlen=7&qty=7700000&type=idpass
+
+ alley, street, avenue
+ server-addresses
