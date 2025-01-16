@@ -57,7 +57,8 @@ function generateNumber(intLen, numType) {
 };
 
 
-const port = 3000;
+// http://localhost:3001/api/generate?number=integer&numlen=10&qty=2000000
+const port = 3001;
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
