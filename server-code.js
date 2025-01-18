@@ -33,8 +33,6 @@ const server = http.createServer((req, res) => {
     // res.end(JSON.stringify(numbers));
     res.end(JSON.stringify({"idpas": passCode, "tpcode": tpCode}));
     // res.end(JSON.stringify({"idpas": passCode, "tpcode": tpCode, postcode: indexAdd}));
-
-
 });
 
 // add to assistant-js (from kivi)
