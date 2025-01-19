@@ -92,13 +92,9 @@ function generateMaxNumbersJSON(start, end) {
   return JSON.stringify(result);
 }
 
-// const numberOfCodes = 2000000; // Замініть на потрібну кількість
-// const uniqueCodes = generateUniqueCodes(numberOfCodes);
-// console.log(uniqueCodes);
-
 // add to assistant-js (from kivi)
 // fns generateRandomName or .. pass to args
-
+// const uniqueCodes = generateUniqueCodes(numberOfCodes);
 // function generateUnique(count) {
 //   const MAX_CODES = 100000; // Maximum unique 5-digit numbers (00000 - 99999)
 //   if (count > MAX_CODES) {
@@ -110,7 +106,6 @@ function generateMaxNumbersJSON(start, end) {
 //     const code = Math.floor(10000 + Math.random() * 90000); // Ensures 5-digit numbers
 //     codes.add(code);
 //   }
-
 //   return codes;
 // }
 
@@ -123,9 +118,6 @@ function generateUniqueElArray(numLen, numType, count) {
     const num = generateNumber(numLen, numType);
     uniqueNames.add(num);
   }
-// } else {
-//   console.log(uniqueNames.size - count );
-// }
 
     return Array.from(uniqueNames);
 }

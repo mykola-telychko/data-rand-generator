@@ -29,8 +29,6 @@ const server = http.createServer((req, res) => {
     const tpCode = generateNum(10, numberType, qty) // 10 for TaxPay code
     // const indexAdd = generateNum(5, numberType, qty) // 10 for TaxPay code
 
-
-    // res.end(JSON.stringify(numbers));
     res.end(JSON.stringify({"idpas": passCode, "tpcode": tpCode}));
     // res.end(JSON.stringify({"idpas": passCode, "tpcode": tpCode, postcode: indexAdd}));
 });

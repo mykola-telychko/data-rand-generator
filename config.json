@@ -1,5 +1,5 @@
-{"portJsonServer": 10,
- "portSreamServer": 12,
+{"idPasportCodeAndTaxCodeServer": 3000,
+ "indexPostServer": 3001,
  "streets": {
     
  }
