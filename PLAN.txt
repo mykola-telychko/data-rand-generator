@@ -4,6 +4,10 @@ Add info html - max-tab for input to url
 
 - numLen - change on codeLen
 - набити масив від 1 до 5 (99999) а потім перемішати його функцією міксАрр
+- add restrictions (limit qty, and limit numlen<=>qty) to avoid killing the welzer
+
+
+
 
 Transliteration: 
 https://postcode.in.ua/ua/pages/translit

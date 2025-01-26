@@ -131,6 +131,7 @@ function generateNumber(intLen, numType) {
 };
 
 // http://localhost:3001/api/generate?number=integer&numlen=10&qty=2000000
+// https://data-rand-generator.vercel.app/api/generate?number=integer&numlen=10&qty=20
 const port = 3001;
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
