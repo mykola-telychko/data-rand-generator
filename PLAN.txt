@@ -2,6 +2,7 @@ check generator from kivi project
 
 Add info html - max-tab for input to url 
 
+- numLen - change on codeLen
 - набити масив від 1 до 5 (99999) а потім перемішати його функцією міксАрр
 
 Transliteration: 
