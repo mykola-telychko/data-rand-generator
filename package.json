@@ -4,7 +4,9 @@
   "description": "DRG",
   "main": "server.js",
   "scripts": {
-      "start": "npm start"
+    "start": "node server.js",
+    "build": "webpack --mode production",
+    "dev": "node server.js"
   },
   "author": "telychko-mykola",
   "license": "ISC",
