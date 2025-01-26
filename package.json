@@ -4,8 +4,7 @@
   "description": "DRG",
   "main": "server.js",
   "scripts": {
-      "start": "node server.js",
-      "build": "npm run build"
+      "start": "npm start"
   },
   "author": "telychko-mykola",
   "license": "ISC",
