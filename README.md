@@ -20,3 +20,8 @@ server-idpass
 
  alley, street, avenue
  server-addresses
+
+------------------
+type=passcodes
+
+type=postindexes

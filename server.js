@@ -9,22 +9,13 @@ const server = http.createServer((req, res) => {
     const numberType = params.get('number');
     const numLen = parseInt(params.get('numlen'));
     const qty = parseInt(params.get('qty'));
+    const typeRes = params.get('type');
 
     const { pathname } = urlMod.parse(req.url);
     // console.log("\n");
     // console.log('params:::__', pathname, typeof pathname);
     // pathname: '/api/generate',
     // search: '?number=integer&numlen=10&qty=2000',
-
-    // if (pathname === '/') {
-    //   fs.readFile('index.html', 'utf8', (err, data) => {
-    //     if (err) {
-    //       res.writeHead(500, { 'Content-Type': 'text/plain' });
-    //       res.end('Internal Server Error');
-    //       console.error('Error reading index.html:', err);
-    //     } 
-    //   });
-    // } 
 
     const maxList = {1:"9", 2:"99","3":"999", 4:"9999",
                      5:[99999, 89990], 6:"999999", 7:"9999999",
@@ -50,6 +41,11 @@ const server = http.createServer((req, res) => {
       </head>
       <body>
       <table>
+          <pre>Example:</pre>
+            <pre>http://${req.headers.host}/api/generate?number=integer&numlen=10&qty=20</pre>
+            <pre>http://${req.headers.host}/api/generate?number=integer&numlen=10&qty=20&type=passcodes</pre>
+          <pre>Info:</pre>
+            <pre>http://${req.headers.host}/info</pre>
           <tr>
             <th>Code length</th><th>Max value</th>
           </tr>
@@ -63,10 +59,6 @@ const server = http.createServer((req, res) => {
           <tr><td>numlen </td><td>code length (integer)</td></tr>
           <tr><td>qty </td><td>number of generated values</td></tr>
       </table>
-          <pre>Example:</pre>
-          <pre>http://${req.headers.host}/api/generate?number=integer&numlen=10&qty=20</pre>
-          <pre>Info:</pre>
-          <pre>http://${req.headers.host}/info</pre>
       </body>
       </html>`;
 
@@ -76,9 +68,26 @@ const server = http.createServer((req, res) => {
        res.end(infoHtml);
        return;
    } else  if ((!numberType || !numLen || !qty) && (pathname == '/info' && pathname == '/') ) {
-    res.writeHead(400, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Missing required parameters' }));
-    return;
+                res.writeHead(400, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: 'Missing required parameters' }));
+                return;
+  } else if (typeRes == 'passcodes') {
+
+      // console.log("passcodes else____", typeRes);
+
+      if (!numberType || !numLen || !qty || !typeRes) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Missing required parameters [numberType, numLen, qty, typeRes]' }));
+        return;
+      }
+      res.setHeader('Content-Type', 'application/json');
+
+      const passCode = generateUniqueElArray(numLen, numberType, qty, 'passcodes')
+      const tpCode = generateUniqueElArray(10, numberType, qty, 'default') // 10 for TaxPay code
+      // const indexAdd = generateNum(5, numberType, qty) // 10 for TaxPay code
+
+      res.end(JSON.stringify({"idpas": passCode, "tpcode": tpCode}));
+
   } else {
       // CONDITION 
       // console.log("last else____");
@@ -92,10 +101,20 @@ const server = http.createServer((req, res) => {
       const numbers = generateUniqueElArray(numLen, numberType, qty);
       // const numbers  = generateUniqueElArray(maxList[qty], numberType, qty);
       // generateMaxNumbersJSON(numLen)
-      console.log(numbers.length, generateMaxNumbersJSON(numLen));
+      // console.log(numbers.length, generateMaxNumbersJSON(numLen));
       // res.end(error);
       res.end(JSON.stringify(numbers));
       // CONDITION
+
+      // if (pathname === '/') {
+      //   fs.readFile('index.html', 'utf8', (err, data) => {
+      //     if (err) {
+      //       res.writeHead(500, { 'Content-Type': 'text/plain' });
+      //       res.end('Internal Server Error');
+      //       console.error('Error reading index.html:', err);
+      //     } 
+      //   });
+      // } 
   }
 
 });
@@ -109,13 +128,31 @@ function generateMaxNumbersJSON(start, end) {
   return JSON.stringify(result);
 }
 
-function generateUniqueElArray(numLen, numType, count) {
-    const uniqueNames = new Set();
-    while ( uniqueNames.size < count ) {
-      const num = generateNumber(numLen, numType);
-      uniqueNames.add(num);
+// add to assistant-js (from kivi)
+function generateUniqueElArray(numLen, numType, count, type = 'default') {
+    // let uniqueNames ;
+
+    if ( type === 'default' ) {
+        let uniqueNames ;
+        uniqueNames = new Set();
+        while ( uniqueNames.size < count ) {
+          const num = generateNumber(numLen, numType);
+          uniqueNames.add(num);
+        }
+        return Array.from(uniqueNames);
+
+    } else if ( type === 'passcodes' ) {
+        let uniqueNum = new Set();
+        while ( uniqueNum.size < count ) {
+          const num = generateNumber(numLen, numType);
+          uniqueNum.add(generateRandomString() + num); // pass code 
+        }
+        // console.log('passcodes', generateRandomString(), num);
+        // console.log('passcodes', uniqueNum);
+        return Array.from(uniqueNum);
     }
-    return Array.from(uniqueNames);
+  
+  
 }
 
 function generateNumber(intLen, numType) {
@@ -129,15 +166,20 @@ function generateNumber(intLen, numType) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 };
+const generateRandomString = (length = 2) => {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  return Array.from({ length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
+};
 
 // http://localhost:3001/api/generate?number=integer&numlen=10&qty=2000000
 // https://data-rand-generator.vercel.app/api/generate?number=integer&numlen=10&qty=20
+// http://localhost:3001/api/generate?number=integer&numlen=10&qty=20&type=passcodes
 const port = 3001;
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
 
-// add to assistant-js (from kivi)
+
 // fns generateRandomName or .. pass to args
 // const uniqueCodes = generateUniqueCodes(numberOfCodes);
 // function generateUnique(count) {
