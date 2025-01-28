@@ -8,18 +8,18 @@ server
 
 server-stream
  handle api and return random data
- http://localhost:3000/api/generate?number=integer&numlen=5&qty=50000
- http://localhost:3000/api/generate?number=float&numlen=5&qty=50000
+    http://localhost:3001/api/generate?number=integer&codelen=10&qty=20 
+    http://localhost:3000/api/generate?number=float&codelen=5&qty=50000
 
- tax payer id:
- http://localhost:3001/api/generate?number=integer&numlen=10&qty=2000000
+tax payer id:
+ http://localhost:3001/api/generate?number=integer&codelen=10&qty=2000
 
 server-idpass
- http://localhost:3000/api/generate?number=integer&numlen=7&qty=7700000&type=idpass
+ http://localhost:3000/api/generate?number=integer&codelen=7&qty=770&type=idpass
 
-
- alley, street, avenue
- server-addresses
+-- slavic-names (bigJSON and combinations)
+    alley, street, avenue
+    server-addresses
 
 ------------------
 type=passcodes
