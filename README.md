@@ -21,6 +21,9 @@ server-idpass
     alley, street, avenue
     server-addresses
 
+http://localhost:3001/api/list?people=ua 
+http://localhost:3001/api/list?people=ua&type=all
+
 ------------------
 type=passcodes
 

@@ -1,5 +1,6 @@
 const http = require('http');
 const urlMod = require('url');
+const fs = require('fs');
 
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
@@ -9,6 +10,8 @@ const server = http.createServer((req, res) => {
     const codeLen = parseInt(params.get('codelen'));
     const qty = parseInt(params.get('qty'));
     const typeRes = params.get('type');
+    const people = params.get('people');
+
 
     const { pathname } = urlMod.parse(req.url);
 
@@ -53,7 +56,8 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
     </table>
     </body>
     </html>`;
-
+    // http://localhost:3001/api/list?people=ua 
+    // http://localhost:3001/api/list?people=ua&type=all
     //  console.log("info___", infoHtml);
      res.writeHead(200, { 'Content-Type': 'text/html' });
      res.end(infoHtml);
@@ -104,44 +108,93 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
       // } 
   }
 } else if ( pathname == '/api/list' ) {
-  const infoHtml = `<!DOCTYPE html>
-  <html>
-  <head>
-      <title>LIST</title>
-      <style>
-          table, th, td { border: 1px solid black; border-collapse: collapse; }
-          th, td { padding: 15px; text-align: center; }
-      </style>
-  </head>
-  <body>
-  <table>
-      <h3> LISTS </h3>
-      <pre>Example:</pre>
-        <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</pre>
-        <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
-      <pre>Info:</pre>
-        <pre>http://${req.headers.host}/info</pre>
-      <tr>
-      <pre>Lists:</pre>
-        <pre>http://${req.headers.host}/api/list</pre>
-      <tr>
-        <th>Country</th><th>Code</th>
-      </tr>
-        <tr><td>Ukraine</td><td>UA</td></tr>
-        <tr><td>Belarus</td><td>BY</td></tr>
-        <tr><td>Poland</td><td>PL</td></tr>
-        <tr><td>Czech Republic</td><td>CZ</td></tr>
-        <tr><td>Slovakia</td><td>SK</td></tr>
-        <tr><th>Items</th><td></td></tr>
-        <tr><td> </td><td>MALE NAME</td></tr>
-        <tr><td> </td><td>FEMALE NAME</td></tr>
-        <tr><td> </td><td>LASTNAME</td></tr>
-  </table>
-  </body>
-  </html>`;
-   res.writeHead(200, { 'Content-Type': 'text/html' });
-   res.end(infoHtml);
-   return;
+
+  // console.error('/api/list/people:');
+  if ( people == 'ua' && !typeRes ) {
+
+        fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+            if (err) {
+                // console.error('Помилка читання файлу:', err);
+                if (err.code === 'ENOENT') {
+                  res.statusCode = 404; 
+                  res.end('Файл не знайдено');
+                } else {
+                  res.statusCode = 500; 
+                  res.end('Помилка сервера');
+                }
+                return;
+            }
+        
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end(data);
+        });
+
+  } else if ( people == 'ua' && typeRes == 'all' ) {
+  // } else if ( people inclides ['ua', 'pl'] && typeRes == 'all' ) {
+
+        fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+          if (err) {
+              if (err.code === 'ENOENT') {
+                res.statusCode = 404; 
+                res.end('Файл не знайдено');
+              } else {
+                res.statusCode = 500; 
+                res.end('Помилка сервера');
+              }
+              return;
+          }
+          let {names, lastnames} = JSON.parse(data);
+          // let list = combinator(names, lastnames);
+          // console.error('all файлу:', list, typeof list);
+
+
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          // res.end( JSON.stringify({"list": list}));
+          res.end(data);
+      });
+  } else {
+
+      const infoHtml = `<!DOCTYPE html>
+      <html>
+      <head>
+          <title>LIST</title>
+          <style>
+              table, th, td { border: 1px solid black; border-collapse: collapse; }
+              th, td { padding: 15px; text-align: center; }
+          </style>
+      </head>
+      <body>
+      <table>
+          <h3> LISTS </h3>
+          <pre>Example:</pre>
+            <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</pre>
+            <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
+          <pre>Info:</pre>
+            <pre>http://${req.headers.host}/info</pre>
+          <tr>
+          <pre>Lists:</pre>
+            <pre>http://${req.headers.host}/api/list</pre>
+          <tr>
+            <th>Country</th><th>Code</th>
+          </tr>
+            <tr><td>Ukraine</td><td>UA</td></tr>
+            <tr><td>Belarus</td><td>BY</td></tr>
+            <tr><td>Poland</td><td>PL</td></tr>
+            <tr><td>Czech Republic</td><td>CZ</td></tr>
+            <tr><td>Slovakia</td><td>SK</td></tr>
+            <tr><th>Items</th><td></td></tr>
+            <tr><td> </td><td>MALE NAME</td></tr>
+            <tr><td> </td><td>FEMALE NAME</td></tr>
+            <tr><td> </td><td>LASTNAME</td></tr>
+      </table>
+      </body>
+      </html>`;
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(infoHtml);
+      return;
+  }
 }
 
 
@@ -197,6 +250,16 @@ const generateRandomString = (length = 2) => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   return Array.from({ length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
 };
+function combinator(arr1, arr2) {
+  let res = []; let tpIndex = 0;
+  for(let i = 0; i < arr1.length; i++){
+      for(let k = 0; k < arr2.length; k++){
+          res.push(`${arr1[i].trim()} ${arr2[k].trim()}`);
+          tpIndex++;
+      }
+  }
+  return res;
+}
 
 // http://localhost:3001/api/generate?number=integer&codelen=10&qty=2000000
 // https://data-rand-generator.vercel.app/api/generate?number=integer&codelen=10&qty=20
