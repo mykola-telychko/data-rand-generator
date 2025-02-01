@@ -9,6 +9,7 @@
   "author": "telychko-mykola",
   "license": "ISC",
   "dependencies": {
-    "axios": "^1.7.9"
+    "axios": "^1.7.9",
+    "jsonfile": "^6.1.0"
   }
 }

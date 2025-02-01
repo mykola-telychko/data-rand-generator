@@ -1,6 +1,9 @@
 const http = require('http');
 const urlMod = require('url');
 const fs = require('fs');
+const jsonfile = require('jsonfile');
+const config = jsonfile.readFileSync('config.json');
+
 
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
@@ -11,12 +14,12 @@ const server = http.createServer((req, res) => {
     const qty = parseInt(params.get('qty'));
     const typeRes = params.get('type');
     const people = params.get('people');
-
+    const natStore = config.jsonStore;
 
     const { pathname } = urlMod.parse(req.url);
 
     // console.log("\n");
-    // console.log('params:::__', pathname);
+    // console.log('params:::__', natStore);
     // pathname: '/api/generate',
     // search: '?number=integer&codelen=10&qty=2000',
     // const maxList = in config.json;
@@ -56,8 +59,6 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
     </table>
     </body>
     </html>`;
-    // http://localhost:3001/api/list?people=ua 
-    // http://localhost:3001/api/list?people=ua&type=all
     //  console.log("info___", infoHtml);
      res.writeHead(200, { 'Content-Type': 'text/html' });
      res.end(infoHtml);
@@ -109,10 +110,14 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
   }
 } else if ( pathname == '/api/list' ) {
 
-  // console.error('/api/list/people:');
-  if ( people == 'ua' && !typeRes ) {
+  // if ( people == 'ua' && !typeRes ) {
+  // findKeyInArrayOfObjects(array, key, returnVal = false)
+  if ( findKeyInArrayOfObjects(natStore, people) && !typeRes ) {
 
-        fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+        const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
+        // console.error('ua:', bigJSONnat);
+
+        fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
             if (err) {
                 // console.error('Помилка читання файлу:', err);
                 if (err.code === 'ENOENT') {
@@ -177,6 +182,11 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           <pre>Lists:</pre>
             <pre>http://${req.headers.host}/api/list</pre>
           <tr>
+          <pre>Lists:</pre>
+            <pre>http://${req.headers.host}/api/list?people=ua</pre>
+            <pre>http://${req.headers.host}/api/list?people=pl</pre>
+          <tr>
+
             <th>Country</th><th>Code</th>
           </tr>
             <tr><td>Ukraine</td><td>UA</td></tr>
@@ -261,6 +271,18 @@ function combinator(arr1, arr2) {
   return res;
 }
 
+function findKeyInArrayOfObjects(array, key, returnVal = false) {
+  const foundObject = array.find(obj => Object.keys(obj).includes(key));
+
+  if (foundObject) {
+    return returnVal ? foundObject[key] : true;
+  } else {
+    return false;
+  }
+}
+
+// http://localhost:3001/api/list?people=ua 
+// http://localhost:3001/api/list?people=ua&type=all
 // http://localhost:3001/api/generate?number=integer&codelen=10&qty=2000000
 // https://data-rand-generator.vercel.app/api/generate?number=integer&codelen=10&qty=20
 // http://localhost:3001/api/generate?number=integer&codelen=10&qty=20&type=passcodes
