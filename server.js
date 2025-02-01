@@ -118,10 +118,12 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
   if ( findKeyInArrayOfObjects(natStore, people) && !typeRes ) {
 
         const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
-        // console.error('ua:', bigJSONnat);
+        // console.error('names:', bigJSONnat);
 
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
         // fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
+        // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+
         fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
 
             if (err) {
