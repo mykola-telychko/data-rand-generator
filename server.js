@@ -114,7 +114,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
 
         // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
         fs.readFile('./pl_names.json', 'utf8', (err, data) => {
-
+          
             if (err) {
                 // console.error('Помилка читання файлу:', err);
                 if (err.code === 'ENOENT') {
