@@ -121,10 +121,10 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         // console.error('names:', bigJSONnat);
 
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
-        // fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
+        fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
         // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
 
-        fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+        // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
 
             if (err) {
                 // console.error('Помилка читання файлу:', err);
@@ -150,7 +150,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           if (err) {
               if (err.code === 'ENOENT') {
                 res.statusCode = 404; 
-                res.end('Файл не знайдено');
+                res.end('----');
               } else {
                 res.statusCode = 500; 
                 res.end('Помилка сервера');
