@@ -1,8 +1,8 @@
 const http = require('http');
 const urlMod = require('url');
 const fs = require('fs');
-const jsonfile = require('jsonfile');
-const config = jsonfile.readFileSync('./config.json');
+// const jsonfile = require('jsonfile');
+const config = require('./config.json');
 
 
 const server = http.createServer((req, res) => {
@@ -14,6 +14,8 @@ const server = http.createServer((req, res) => {
     const qty = parseInt(params.get('qty'));
     const typeRes = params.get('type');
     const people = params.get('people');
+
+    // console.log('config::', config);
     const natStore = config.jsonStore;
 
     const { pathname } = urlMod.parse(req.url);
