@@ -2,7 +2,7 @@ const http = require('http');
 const urlMod = require('url');
 const fs = require('fs');
 const jsonfile = require('jsonfile');
-const config = jsonfile.readFileSync('config.json');
+const config = jsonfile.readFileSync('./config.json');
 
 
 const server = http.createServer((req, res) => {
