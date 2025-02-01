@@ -4,7 +4,7 @@ const fs = require('fs');
 // const jsonfile = require('jsonfile');
 const config = require('./config.json');
 const path = require('path');
-const filePath = path.join(__dirname, 'json-store', 'ua_names.json');
+// const filePath = path.join(__dirname, 'json-store', 'ua_names.json');
 
 
 const server = http.createServer((req, res) => {
@@ -117,9 +117,12 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
 
   // if ( people == 'ua' && !typeRes ) {
   // findKeyInArrayOfObjects(array, key, returnVal = false)
+
   if ( findKeyInArrayOfObjects(natStore, people) && !typeRes ) {
 
         const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
+        const filePath = path.join(__dirname, 'json-store', bigJSONnat);
+
         // console.error('names:', bigJSONnat);
 
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
