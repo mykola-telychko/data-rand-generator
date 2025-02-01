@@ -3,6 +3,8 @@ const urlMod = require('url');
 const fs = require('fs');
 // const jsonfile = require('jsonfile');
 const config = require('./config.json');
+const path = require('path');
+const filePath = path.join(__dirname, 'json-store', 'ua_names.json');
 
 
 const server = http.createServer((req, res) => {
@@ -121,10 +123,10 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         // console.error('names:', bigJSONnat);
 
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
-        fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
+        // fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
         // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
 
-        // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+        fs.readFile(filePath, 'utf8', (err, data) => {
 
             if (err) {
                 // console.error('Помилка читання файлу:', err);
