@@ -121,7 +121,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         // console.error('ua:', bigJSONnat);
 
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
-        fs.readFile('./json-store/' + bigJSONnat , 'utf8', (err, data) => {
+        fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
             if (err) {
                 // console.error('Помилка читання файлу:', err);
                 if (err.code === 'ENOENT') {
