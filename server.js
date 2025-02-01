@@ -15,8 +15,9 @@ const server = http.createServer((req, res) => {
     const typeRes = params.get('type');
     const people = params.get('people');
 
-    // console.log('config::', config);
     const natStore = config.jsonStore;
+    // console.log('config::', natStore, typeof natStore);
+
 
     const { pathname } = urlMod.parse(req.url);
 
@@ -119,15 +120,16 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
         // console.error('ua:', bigJSONnat);
 
-        fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
+        // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
+        fs.readFile('./json-store/' + bigJSONnat , 'utf8', (err, data) => {
             if (err) {
                 // console.error('Помилка читання файлу:', err);
                 if (err.code === 'ENOENT') {
                   res.statusCode = 404; 
-                  res.end('Файл не знайдено');
+                  res.end('File not found');
                 } else {
                   res.statusCode = 500; 
-                  res.end('Помилка сервера');
+                  res.end('Server error');
                 }
                 return;
             }
