@@ -39,17 +39,19 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         <style>
             table, th, td { border: 1px solid black; border-collapse: collapse; }
             th, td { padding: 15px; text-align: center; }
+            .tittle { color: red; }
         </style>
     </head>
     <body>
     <table>
-        <pre>Example:</pre>
-          <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</pre>
+        <pre class="tittle">Example:</pre>
+            <a 
+            href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
           <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
-        <pre>Info:</pre>
+        <pre class="tittle">Info:</pre>
           <pre>http://${req.headers.host}/info</pre>
         <tr>
-        <pre>Lists:</pre>
+        <pre class="tittle">Lists:</pre>
           <pre>http://${req.headers.host}/api/list</pre>
       <tr>
           <th>Code length</th><th>Max value</th>
@@ -124,11 +126,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         const filePath = path.join(__dirname, 'json-store', bigJSONnat);
 
         // console.error('names:', bigJSONnat);
-
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
-        // fs.readFile("./json-store/" + bigJSONnat , 'utf8', (err, data) => {
-        // fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
-
         fs.readFile(filePath, 'utf8', (err, data) => {
 
             if (err) {
@@ -181,21 +179,22 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           <style>
               table, th, td { border: 1px solid black; border-collapse: collapse; }
               th, td { padding: 15px; text-align: center; }
+              .tittle { color: red; }
           </style>
       </head>
       <body>
       <table>
           <h3> LISTS </h3>
-          <pre>Example:</pre>
+          <pre class="tittle">Example:</pre>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</pre>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
-          <pre>Info:</pre>
+          <pre class="tittle">Info:</pre>
             <pre>http://${req.headers.host}/info</pre>
           <tr>
-          <pre>Lists:</pre>
+          <pre class="tittle">Lists:</pre>
             <pre>http://${req.headers.host}/api/list</pre>
           <tr>
-          <pre>Lists:</pre>
+          <pre class="tittle">Lists:</pre>
             <pre>http://${req.headers.host}/api/list?people=ua</pre>
             <pre>http://${req.headers.host}/api/list?people=pl</pre>
           <tr>
