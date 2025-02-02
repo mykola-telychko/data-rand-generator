@@ -20,7 +20,6 @@ const server = http.createServer((req, res) => {
     const natStore = config.jsonStore;
     // console.log('config::', natStore, typeof natStore);
 
-
     const { pathname } = urlMod.parse(req.url);
 
     // console.log("\n");
@@ -29,49 +28,53 @@ const server = http.createServer((req, res) => {
     // search: '?number=integer&codelen=10&qty=2000',
     // const maxList = in config.json;
     // const maxNumbersJson = generateMaxNumbersJSON(1, 20);
-
+if (pathname === "/info" || pathname == '/') {
+      const infoHtml = `<!DOCTYPE html>
+      <html>
+      <head>
+          <title>INFO</title>
+          <style>
+              table, th, td { border: 1px solid black; border-collapse: collapse; }
+              th, td { padding: 15px; text-align: center; }
+              .tittle { color: red; } a {font-family: monospace;}
+          </style>
+      </head>
+      <body>
+      <table>
+          <h3> INFO </h3>
+          <pre class="tittle">Numbers:</pre>
+            <a href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
+            <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
+          <pre class="tittle">Info:</pre>
+            <pre>http://${req.headers.host}/info</pre>
+          <tr>
+          <pre class="tittle">Lists:</pre>
+            <a href="http://${req.headers.host}/api/list">http://${req.headers.host}/api/list</a>
+            <pre></pre>
+          <tr>
+            <th>Code length</th><th>Values</th><th>Qty combinations</th>
+          </tr>
+          <tr><td>1</td><td>0-9</td><td>10</td></tr>
+          <tr><td>2</td><td>00-99</td><td>100</td></tr>
+          <tr><td>3</td><td>000-999</td><td>1000</td></tr>
+          <tr><td>4</td><td>0000-9999</td><td>10000</td></tr>
+          <tr><td>5</td><td>00000-99999</td><td>100000</td></tr>
+          <tr><th>Params</th><td></td></tr>
+          <tr><td></td><td>number</td><td>float/number</td></tr>
+          <tr><td></td><td>codelen</td><td>code length (integer)</td></tr>
+          <tr><td></td><td>qty </td><td>number of generated values</td></tr>
+      </table>
+      </body>
+      </html>`;
+      //  console.log("info___", infoHtml);
+       res.writeHead(200, { 'Content-Type': 'text/html' });
+       res.end(infoHtml);
+       return;
+} else 
 if ( pathname == '/api/generate' || pathname == '/' ) {
-  if (pathname === "/info" || pathname == '/') {
-    const infoHtml = `<!DOCTYPE html>
-    <html>
-    <head>
-        <title>INFO</title>
-        <style>
-            table, th, td { border: 1px solid black; border-collapse: collapse; }
-            th, td { padding: 15px; text-align: center; }
-            .tittle { color: red; }
-        </style>
-    </head>
-    <body>
-    <table>
-        <pre class="tittle">Example:</pre>
-            <a 
-            href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
-          <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
-        <pre class="tittle">Info:</pre>
-          <pre>http://${req.headers.host}/info</pre>
-        <tr>
-        <pre class="tittle">Lists:</pre>
-          <pre>http://${req.headers.host}/api/list</pre>
-      <tr>
-          <th>Code length</th><th>Max value</th>
-        </tr>
-        <tr><td>1</td><td>9</td></tr><tr><td>2</td><td>99</td></tr>
-        <tr><td>3</td><td>999</td></tr><tr><td>4</td><td>9999</td></tr>
-        <tr><td>5</td><td>99999</td></tr>
-        <tr><th>Params</th><td></td></tr>
-        <tr><td>number </td><td>float/number</td></tr>
-        <tr><td>codelen </td><td>code length (integer)</td></tr>
-        <tr><td>qty </td><td>number of generated values</td></tr>
-    </table>
-    </body>
-    </html>`;
-    //  console.log("info___", infoHtml);
-     res.writeHead(200, { 'Content-Type': 'text/html' });
-     res.end(infoHtml);
-     return;
-  } else  if ((!numberType || !codeLen || !qty) && 
-              (pathname == '/info' && pathname == '/') ) {
+ if ((!numberType || !codeLen || !qty) && 
+              (pathname == '/info' || pathname == '/') ) {
+                // ???
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Missing required parameters' }));
                 return;
@@ -179,22 +182,22 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           <style>
               table, th, td { border: 1px solid black; border-collapse: collapse; }
               th, td { padding: 15px; text-align: center; }
-              .tittle { color: red; }
+              .tittle { color: red; } a {font-family: monospace;} span {font-family: monospace;}
           </style>
       </head>
       <body>
       <table>
           <h3> LISTS </h3>
-          <pre class="tittle">Example:</pre>
+          <pre class="tittle">Numbers:</pre>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</pre>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
           <pre class="tittle">Info:</pre>
-            <pre>http://${req.headers.host}/info</pre>
+            <a href="http://${req.headers.host}/info">http://${req.headers.host}/info</a>
+              <span> or http://${req.headers.host}</span>
+            <pre></pre>
           <tr>
           <pre class="tittle">Lists:</pre>
             <pre>http://${req.headers.host}/api/list</pre>
-          <tr>
-          <pre class="tittle">Lists:</pre>
             <pre>http://${req.headers.host}/api/list?people=ua</pre>
             <pre>http://${req.headers.host}/api/list?people=pl</pre>
           <tr>
