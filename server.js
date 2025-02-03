@@ -88,8 +88,8 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         return;
       }
       res.setHeader('Content-Type', 'application/json');
-      const passCode = generateUniqueElArray(codeLen, numberType, qty, 'passcodes')
-      const tpCode = generateUniqueElArray(10, numberType, qty, 'default') // 10 for TaxPay code
+      const passCode = generateUniqueElArray(codeLen, numberType, qty, 0, 'passcodes')
+      const tpCode = generateUniqueElArray(10, numberType, qty, 0, 'default') // 10 for TaxPay code
       // const indexAdd = generateNum(5, numberType, qty) // 10 for TaxPay code
 
       res.end(JSON.stringify({"idpas": passCode, "tpcode": tpCode}));
@@ -263,9 +263,10 @@ function generateUniqueElArray(codeLen, numType, count, tfix = 2, type = 'defaul
         let uniqueNum = new Set();
         while ( uniqueNum.size < count ) {
           const num = generateNumber(codeLen, numType);
+          // console.log('passcodes', generateRandomString(), num);
+
           uniqueNum.add(generateRandomString() + num); // pass code 
         }
-        // console.log('passcodes', generateRandomString(), num);
         return Array.from(uniqueNum);
     } else if ( numType === 'float' ) {
         let uniqueNames ;
