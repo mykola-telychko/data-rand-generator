@@ -1,24 +1,24 @@
 const http = require('http');
 const urlMod = require('url');
 const fs = require('fs');
-// const jsonfile = require('jsonfile');
 const config = require('./config.json');
 const path = require('path');
 // const filePath = path.join(__dirname, 'json-store', 'ua_names.json');
-
 
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const params = new URLSearchParams(url.search);
 
     const numberType = params.get('number');
+    const toFix = parseInt(params.get('tofix'));
     const codeLen = parseInt(params.get('codelen'));
     const qty = parseInt(params.get('qty'));
     const typeRes = params.get('type');
     const people = params.get('people');
 
     const natStore = config.jsonStore;
-    // console.log('config::', natStore, typeof natStore);
+
+    // console.log('config::', toFix, typeof toFix);
 
     const { pathname } = urlMod.parse(req.url);
 
@@ -41,15 +41,16 @@ if (pathname === "/info" || pathname == '/') {
       </head>
       <body>
       <table>
-          <h3> INFO </h3>
+          <h3>DRG / INFO</h3>
           <pre class="tittle">Numbers:</pre>
-            <a href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
+            <a target="_blank" href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
+            <pre>http://${req.headers.host}/api/generate?number=float&tofix=4&codelen=3&qty=10</pre>
           <pre class="tittle">Info:</pre>
             <pre>http://${req.headers.host}/info</pre>
           <tr>
           <pre class="tittle">Lists:</pre>
-            <a href="http://${req.headers.host}/api/list">http://${req.headers.host}/api/list</a>
+            <a target="_blank" href="http://${req.headers.host}/api/list">http://${req.headers.host}/api/list</a>
             <pre></pre>
           <tr>
             <th>Code length</th><th>Values</th><th>Qty combinations</th>
@@ -101,11 +102,19 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         res.end(JSON.stringify({ error: 'Invalid number type. Allowed values: float, integer',
                                 example: `http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20` }));
         return;
+      } else if (numberType === 'float') {
+        res.setHeader('Content-Type', 'application/json');
+        const numbers = generateUniqueElArray(codeLen, numberType, qty, toFix, 'float');
+        // console.log('toFix::___', toFix, typeof toFix);
+        res.end(JSON.stringify(numbers));
+      } else {
+          // may provoke error 
+          res.setHeader('Content-Type', 'application/json');
+          const numbers = generateUniqueElArray(codeLen, numberType, qty);
+          //++// console.log(numbers.length, generateMaxNumbersJSON(codeLen));
+          res.end(JSON.stringify(numbers));
       }
-      res.setHeader('Content-Type', 'application/json');
-      const numbers = generateUniqueElArray(codeLen, numberType, qty);
-      //++// console.log(numbers.length, generateMaxNumbersJSON(codeLen));
-      res.end(JSON.stringify(numbers));
+    
       // CONDITION
 
       // if (pathname === '/') {
@@ -178,7 +187,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
       const infoHtml = `<!DOCTYPE html>
       <html>
       <head>
-          <title>LIST</title>
+          <title> LIST</title>
           <style>
               table, th, td { border: 1px solid black; border-collapse: collapse; }
               th, td { padding: 15px; text-align: center; }
@@ -187,12 +196,13 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
       </head>
       <body>
       <table>
-          <h3> LISTS </h3>
+          <h3>DRG / LISTS</h3>
           <pre class="tittle">Numbers:</pre>
-            <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</pre>
+            <a target="_blank" href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
+            <pre>http://${req.headers.host}/api/generate?number=float&tofix=4&codelen=3&qty=10</pre>
           <pre class="tittle">Info:</pre>
-            <a href="http://${req.headers.host}/info">http://${req.headers.host}/info</a>
+            <a target="_blank" href="http://${req.headers.host}/info">http://${req.headers.host}/info</a>
               <span> or http://${req.headers.host}</span>
             <pre></pre>
           <tr>
@@ -238,7 +248,7 @@ function generateMaxNumbersJSON(start, end) {
 }
 
 // add to assistant-js (from kivi)
-function generateUniqueElArray(codeLen, numType, count, type = 'default') {
+function generateUniqueElArray(codeLen, numType, count, tfix = 2, type = 'default') {
     // let uniqueNames ;
     if ( type === 'default' ) {
         let uniqueNames ;
@@ -257,14 +267,26 @@ function generateUniqueElArray(codeLen, numType, count, type = 'default') {
         }
         // console.log('passcodes', generateRandomString(), num);
         return Array.from(uniqueNum);
-    }  
+    } else if ( numType === 'float' ) {
+        let uniqueNames ;
+        // console.log('float::__', tfix);
+        uniqueNames = new Set();
+        while ( uniqueNames.size < count ) {
+          const num = generateNumber(codeLen, numType, tfix);
+          uniqueNames.add(num);
+        }
+        return Array.from(uniqueNames);
+    }
 }
 
-function generateNumber(intLen, numType) {
+function generateNumber(intLen, numType, tofix) {
     if (numType === 'float') {
-      const min = Math.pow(10, intLen - 1); 
-      const max = Math.pow(10, intLen) - 1; 
-      return Math.random() * (max - min) + min; 
+        const min = Math.pow(10, intLen - 1); 
+        const max = Math.pow(10, intLen) - 1; 
+        res = Math.random() * (max - min) + min;
+        // console.log('generateNumber::',
+        //    res, res.toFixed(tofix), tofix, typeof tofix);
+        return res.toFixed(tofix); 
     } else if (numType === 'integer') {
       const min = Math.pow(10, intLen - 1); 
       const max = Math.pow(10, intLen) - 1;
