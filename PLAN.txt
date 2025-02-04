@@ -9,7 +9,7 @@ Add info html - max-tab for input to url
 - add pagination for bigJSON (list 1.html, 2.html) ?
 - набити масив від 1 до 5 (99999) а потім перемішати його функцією міксАрр
 - add restrictions (limit qty, and limit numlen<=>qty) to avoid killing the welzer
-
+- type=postindexes (codelen=5) need return max
 
 
 

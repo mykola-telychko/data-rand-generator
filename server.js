@@ -215,7 +215,6 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <pre>http://${req.headers.host}/api/list?people=ua</pre>
             <pre>http://${req.headers.host}/api/list?people=pl</pre>
           <tr>
-
             <th>Country</th><th>Code</th>
           </tr>
             <tr><td>Ukraine</td><td>UA</td></tr>
@@ -236,20 +235,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
   }
 }
 
-
-
-
-
 });
-
-
-function generateMaxNumbersJSON(start, end) {
-  const result = {};
-  for (let i = start; i <= end; i++) {
-    result[i] = '9'.repeat(i);
-  }
-  return JSON.stringify(result);
-}
 
 // add to assistant-js (from kivi)
 function generateUniqueElArray(codeLen, numType, count, tfix = 2, type = 'default') {
@@ -345,11 +331,6 @@ function generateSequences(int) {
 // AST-JS
 const randomIndex = (arr) => { return Math.floor(Math.random() * arr.length);}
 
-// http://localhost:3001/api/list?people=ua 
-// http://localhost:3001/api/list?people=ua&type=all
-// http://localhost:3001/api/generate?number=integer&codelen=10&qty=2000000
-// https://data-rand-generator.vercel.app/api/generate?number=integer&codelen=10&qty=20
-// http://localhost:3001/api/generate?number=integer&codelen=10&qty=20&type=passcodes
 const port = 3001;
 server.listen(port, () => {
   console.log(`Server listening on port ${port}`);
