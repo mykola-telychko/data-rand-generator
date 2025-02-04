@@ -10,7 +10,7 @@ const server = http.createServer((req, res) => {
     const params = new URLSearchParams(url.search);
 
     const numberType = params.get('number');
-    const toFix = parseInt(params.get('tofix'));
+    const toFix = params.get('tofix') != 'rnd' ? parseInt(params.get('tofix')): params.get('tofix');
     const codeLen = parseInt(params.get('codelen'));
     const qty = parseInt(params.get('qty'));
     const typeRes = params.get('type');
@@ -61,6 +61,7 @@ if (pathname === "/info" || pathname == '/') {
           <tr><td>4</td><td>0000-9999</td><td>10000</td></tr>
           <tr><td>5</td><td>00000-99999</td><td>100000</td></tr>
           <tr><th>Params</th><td></td></tr>
+          <tr><td></td><td>tofix=rnd</td><td>Random float numbers</td></tr>
           <tr><td></td><td>number</td><td>float/number</td></tr>
           <tr><td></td><td>codelen</td><td>code length (integer)</td></tr>
           <tr><td></td><td>qty </td><td>number of generated values</td></tr>
@@ -201,6 +202,8 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <a target="_blank" href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
             <pre>http://${req.headers.host}/api/generate?number=float&tofix=4&codelen=3&qty=10</pre>
+            <pre>http://${req.headers.host}/api/generate?number=float&tofix=rnd&codelen=3&qty=10</pre>
+
           <pre class="tittle">Info:</pre>
             <a target="_blank" href="http://${req.headers.host}/info">http://${req.headers.host}/info</a>
               <span> or http://${req.headers.host}</span>
@@ -286,8 +289,15 @@ function generateNumber(intLen, numType, tofix) {
         const max = Math.pow(10, intLen) - 1; 
         res = Math.random() * (max - min) + min;
         // console.log('generateNumber::',
-        //    res, res.toFixed(tofix), tofix, typeof tofix);
-        return res.toFixed(tofix); 
+        // res, res.toFixed(tofix), tofix, typeof tofix);
+
+        // console.log('rnd::', tofix);
+        if ( tofix === 'rnd' ) {
+          const randomDecimalPlaces = Math.floor(Math.random() * 6); 
+          return res.toFixed(randomDecimalPlaces);
+        } else {
+          return res.toFixed(tofix); 
+        }
     } else if (numType === 'integer') {
       const min = Math.pow(10, intLen - 1); 
       const max = Math.pow(10, intLen) - 1;
