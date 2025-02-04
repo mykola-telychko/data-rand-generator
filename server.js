@@ -46,6 +46,7 @@ if (pathname === "/info" || pathname == '/') {
             <a target="_blank" href="http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20">http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20</a>
             <pre>http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20&type=passcodes</pre>
             <pre>http://${req.headers.host}/api/generate?number=float&tofix=4&codelen=3&qty=10</pre>
+            <pre>http://${req.headers.host}/api/generate?number=float&tofix=rnd&codelen=3&qty=10</pre>
           <pre class="tittle">Info:</pre>
             <pre>http://${req.headers.host}/info</pre>
           <tr>
@@ -285,17 +286,21 @@ function generateUniqueElArray(codeLen, numType, count, tfix = 2, type = 'defaul
 
 function generateNumber(intLen, numType, tofix) {
     if (numType === 'float') {
-        const min = Math.pow(10, intLen - 1); 
-        const max = Math.pow(10, intLen) - 1; 
-        res = Math.random() * (max - min) + min;
+     
         // console.log('generateNumber::',
         // res, res.toFixed(tofix), tofix, typeof tofix);
 
         // console.log('rnd::', tofix);
         if ( tofix === 'rnd' ) {
+          const min = Math.pow(10, randomIndex(generateSequences(intLen)) - 1); 
+          const max = Math.pow(10, randomIndex(generateSequences(intLen))) - 1; 
+          res = Math.random() * (max - min) + min;
           const randomDecimalPlaces = Math.floor(Math.random() * 6); 
           return res.toFixed(randomDecimalPlaces);
         } else {
+          const min = Math.pow(10, intLen - 1); 
+          const max = Math.pow(10, intLen) - 1; 
+          res = Math.random() * (max - min) + min;
           return res.toFixed(tofix); 
         }
     } else if (numType === 'integer') {
@@ -308,17 +313,18 @@ const generateRandomString = (length = 2) => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   return Array.from({ length }, () => characters[Math.floor(Math.random() * characters.length)]).join('');
 };
-function combinator(arr1, arr2) {
-  let res = []; let tpIndex = 0;
-  for(let i = 0; i < arr1.length; i++){
-      for(let k = 0; k < arr2.length; k++){
-          res.push(`${arr1[i].trim()} ${arr2[k].trim()}`);
-          tpIndex++;
-      }
-  }
-  return res;
-}
+// function combinator(arr1, arr2) {
+//   let res = []; let tpIndex = 0;
+//   for(let i = 0; i < arr1.length; i++){
+//       for(let k = 0; k < arr2.length; k++){
+//           res.push(`${arr1[i].trim()} ${arr2[k].trim()}`);
+//           tpIndex++;
+//       }
+//   }
+//   return res;
+// }
 
+// AST-JS
 function findKeyInArrayOfObjects(array, key, returnVal = false) {
   const foundObject = array.find(obj => Object.keys(obj).includes(key));
 
@@ -328,6 +334,16 @@ function findKeyInArrayOfObjects(array, key, returnVal = false) {
     return false;
   }
 }
+// AST-JS
+function generateSequences(int) {
+  let nu = 3;
+  let arr = [];
+  // console.log(arr);
+  for ( let i = 0; i < nu + 1; i++ ) { arr.push(i); }
+  return arr;
+}
+// AST-JS
+const randomIndex = (arr) => { return Math.floor(Math.random() * arr.length);}
 
 // http://localhost:3001/api/list?people=ua 
 // http://localhost:3001/api/list?people=ua&type=all
