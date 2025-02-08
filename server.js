@@ -90,7 +90,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         return;
       }
       res.setHeader('Content-Type', 'application/json');
-      const passCode = generateUniqueElArray(codeLen, numberType, qty, 0, 'passcodes')
+      const passCode = generateUniqueElArray(5, numberType, qty, 0, 'passcodes')
       const tpCode = generateUniqueElArray(10, numberType, qty, 0, 'default') // 10 for TaxPay code
       // const indexAdd = generateNum(5, numberType, qty) // 10 for TaxPay code
 
@@ -222,6 +222,14 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <tr><td>Poland</td><td>PL</td></tr>
             <tr><td>Czech Republic</td><td>CZ</td></tr>
             <tr><td>Slovakia</td><td>SK</td></tr>
+            <tr><td>Bulgaria</td><td>BG</td></tr>
+            <tr><td>Croatia</td><td>CR</td></tr>
+            <tr><td>Bosnia and Herzegovina</td><td>BH</td></tr>
+            <tr><td>Montenegro</td><td>MG</td></tr>
+            <tr><td>North Macedonia</td><td>MC</td></tr>
+            <tr><td>Serbia</td><td>SR</td></tr>
+            <tr><td>Slovenia</td><td>SV</td></tr>
+
             <tr><th>Items</th><td></td></tr>
             <tr><td> </td><td>MALE NAME</td></tr>
             <tr><td> </td><td>FEMALE NAME</td></tr>
