@@ -1,17 +1,14 @@
 check generator from kivi project
 
-Add info html - max-tab for input to url 
-
-- make &tofix=4&codelen=3&qty=10 for FLOAT / tofix=rnd / codelen=rnd /
+- набити масив від 1 до 5 (99999) а потім перемішати його функцією міксАрр
 - new params qty=max / number=mix /  http://${host}/api/generate?number=mix&qty=max
 -  add LIMITS for table and type=all api-countries
 -  add [explain] button for combinatorics
 - add pagination for bigJSON (list 1.html, 2.html) ?
-- набити масив від 1 до 5 (99999) а потім перемішати його функцією міксАрр
 - add restrictions (limit qty, and limit numlen<=>qty) to avoid killing the welzer
 - type=postindexes (codelen=5) need return max
-
-
+- add export button csv sql-insert 
+- мати готові великі бази які порубані на шматки . можливо для них окремі юрли будуть 
 
 Transliteration: 
 https://postcode.in.ua/ua/pages/translit
@@ -36,3 +33,7 @@ https://codepen.io/lothiela/pen/qBYodPe
 
 https://codepen.io/jacobbridges/pen/YjLezZ
 
+-------------------
+DONE:
+
+- make &tofix=4&codelen=3&qty=10 for FLOAT / tofix=rnd / codelen=rnd /
