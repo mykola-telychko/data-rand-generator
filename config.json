@@ -7,7 +7,8 @@
   { "pl": "pl_names.json" }, 
   { "ua": "ua_names.json" },
   { "cz": "cz_names.json" },
-  { "sv": "sv_names.json" }
+  { "sv": "sv_names.json" },
+  { "sk": "sk_names.json" }
  ],
  "maxVal": {"1":"9", "2":"99","3":"999", "4":"9999",
   "5":[99999, 89990], "6":"999999", "7":"9999999",

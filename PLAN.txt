@@ -1,8 +1,12 @@
 check generator from kivi project
 
+-  add LIMITS for table and type=all (in config too) 
+-  add option for api-nation url-params sex=separate (male/female)
+-  add api-countries
+
+
 - набити масив від 1 до 5 (99999) а потім перемішати його функцією міксАрр
 - new params qty=max / number=mix /  http://${host}/api/generate?number=mix&qty=max
--  add LIMITS for table and type=all api-countries
 -  add [explain] button for combinatorics
 - add pagination for bigJSON (list 1.html, 2.html) ?
 - add restrictions (limit qty, and limit numlen<=>qty) to avoid killing the welzer
