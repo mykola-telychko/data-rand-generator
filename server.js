@@ -215,20 +215,21 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <pre>http://${req.headers.host}/api/list?people=ua</pre>
             <pre>http://${req.headers.host}/api/list?people=pl</pre>
           <tr>
-            <th>Country</th><th>Code</th>
+            <th>Country</th><th>Code</th><th>Max</th>
           </tr>
-            <tr><td>Ukraine</td><td>UA</td></tr>
+            <tr><td>Ukraine</td><td>UA</td><td>13871920</td></tr>
             <tr><td>Belarus</td><td>BY</td></tr>
             <tr><td>Poland</td><td>PL</td></tr>
-            <tr><td>Czech Republic</td><td>CZ</td></tr>
-            <tr><td>Slovakia</td><td>SK</td></tr>
+            <tr><td>Czech Republic</td><td>CZ</td><td>662728</td></tr>
+            <tr><td>Slovakia</td><td>SK</td><td>1145400</td></tr>
             <tr><td>Bulgaria</td><td>BG</td></tr>
             <tr><td>Croatia</td><td>CR</td></tr>
             <tr><td>Bosnia and Herzegovina</td><td>BH</td></tr>
             <tr><td>Montenegro</td><td>MG</td></tr>
             <tr><td>North Macedonia</td><td>MC</td></tr>
             <tr><td>Serbia</td><td>SR</td></tr>
-            <tr><td>Slovenia</td><td>SV</td></tr>
+            <tr><td>Slovenia</td><td>SV</td><td>54520</td></tr>
+            <tr><td>TOTAL</td><td></td><td>15734568</td></tr>
 
             <tr><th>Items</th><td></td></tr>
             <tr><td> </td><td>MALE NAME</td></tr>
@@ -338,6 +339,25 @@ function generateSequences(int) {
 }
 // AST-JS
 const randomIndex = (arr) => { return Math.floor(Math.random() * arr.length);}
+
+
+function getMaxLenNum(){
+    let arr = [];
+    let codLen = 3;
+    // 3 = 999 / 1000 = 000->999
+    for (let i = 0; i < 1000; i++) {
+      let paddedNumber = String(i).padStart(codLen, '0');
+      arr.push(paddedNumber);
+    }
+
+    // console.log(arr);
+    // from  https://github.com/mykola-telychko/assistant-js
+    const shuffleArray = (arr) => arr.sort(() => Math.random() - 0.5);
+    console.log(shuffleArray(arr)); 
+
+    return shuffleArray(arr)
+}
+
 
 const port = 3001;
 server.listen(port, () => {

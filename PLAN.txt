@@ -1,5 +1,7 @@
 check generator from kivi project
 
+- getMaxLenNum() fn and rules 
+
 -  add LIMITS for table and type=all (in config too) 
 -  add option for api-nation url-params sex=separate (male/female)
 -  add api-countries
