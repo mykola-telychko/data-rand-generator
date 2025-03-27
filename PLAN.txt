@@ -1,5 +1,8 @@
 check generator from kivi project
 
+
+- LOGIC ERROR findKeyInArrayOfObjects(natStore, people, false) && typeRes == 'all'
+
 - getMaxLenNum() fn and rules 
 
 -  add LIMITS for table and type=all (in config too) 

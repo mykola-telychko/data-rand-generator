@@ -6,7 +6,8 @@
  "jsonStore": [
   { "pl": "pl_names.json" }, 
   { "ua": "ua_names.json" },
-  { "cz": "cz_names.json" },  
+  { "cz": "cz_names.json" },
+  { "cz": "cz_names.json", "all": "cr_allcomb.json" },
   { "sv": "sv_names.json" }
  ],
  "maxVal": {"1":"9", "2":"99","3":"999", "4":"9999",

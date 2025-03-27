@@ -160,7 +160,9 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
   // if ( people == 'ua' && !typeRes ) {
   // findKeyInArrayOfObjects(array, key, returnVal = false)
 
-  if ( findKeyInArrayOfObjects(natStore, people) && !typeRes ) {
+  if ( findKeyInArrayOfObjects(natStore, people, false, false) && !typeRes ) {
+
+        console.error('limit:', typeRes);
 
         const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
         const filePath = path.join(__dirname, 'json-store', bigJSONnat);
@@ -169,7 +171,6 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         fs.readFile(filePath, 'utf8', (err, data) => {
 
             if (err) {
-                // console.error('Помилка читання файлу:', err);
                 if (err.code === 'ENOENT') {
                   res.statusCode = 404; 
                   res.end('File not found');
@@ -185,17 +186,23 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             res.end(data);
         });
 
-  } else if ( people == 'ua' && typeRes == 'all' ) {
-  // } else if ( people inclides ['ua', 'pl'] && typeRes == 'all' ) {
+  } else if ( findKeyInArrayOfObjects(natStore, people, false) && typeRes == 'all' ) {
+                // && findKeyInArrayOfObjects(natStore, 'all', false)
+        // const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
+        const all = findKeyInArrayOfObjects(natStore, people, true, true);
+        // console.error('ALL:', all, path);
+        console.error('ALL:', all, findKeyInArrayOfObjects(natStore, 'all', false));
+        const filePath = path.join(__dirname, 'json-store', all);
 
-        fs.readFile('./json-store/ua_names.json', 'utf8', (err, data) => {
+
+        fs.readFile(filePath, 'utf8', (err, data) => {
           if (err) {
               if (err.code === 'ENOENT') {
                 res.statusCode = 404; 
                 res.end('----');
               } else {
                 res.statusCode = 500; 
-                res.end('Помилка сервера');
+                res.end('Server error; ALL');
               }
               return;
           }
@@ -248,13 +255,13 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <tr><td>Czech Republic</td><td>CZ</td><td>662728</td></tr>
             <tr><td>Slovakia</td><td>SK</td><td>1145400</td></tr>
             <tr><td>Bulgaria</td><td>BG</td></tr>
-            <tr><td>Croatia</td><td>CR</td></tr>
+            <tr><td>Croatia</td><td>CR</td><td>2642432</td></tr>
             <tr><td>Bosnia and Herzegovina</td><td>BH</td></tr>
             <tr><td>Montenegro</td><td>MG</td></tr>
             <tr><td>North Macedonia</td><td>MC</td></tr>
             <tr><td>Serbia</td><td>SR</td></tr>
             <tr><td>Slovenia</td><td>SV</td><td>54520</td></tr>
-            <tr><td>TOTAL</td><td></td><td>15734568</td></tr>
+            <tr><td>TOTAL</td><td></td><td>18377000</td></tr>
 
             <tr><th>Items</th><td></td></tr>
             <tr><td> </td><td>MALE NAME</td></tr>
@@ -345,14 +352,28 @@ const generateRandomString = (length = 2) => {
 // }
 
 // AST-JS
-function findKeyInArrayOfObjects(array, key, returnVal = false) {
-  const foundObject = array.find(obj => Object.keys(obj).includes(key));
+function findKeyInArrayOfObjects(array, key, returnVal = false, all = false) {
 
-  if (foundObject) {
-    return returnVal ? foundObject[key] : true;
+  const foundObject = array.find(obj => Object.keys(obj).includes(key));
+  // console.log('foundObject::', foundObject, array, key);
+  // console.log('foundObject::', foundObject, key, all);
+
+  if (all) {
+    if (foundObject['all']) {
+      return returnVal ? foundObject['all'] : true;
+    } else {
+      return false;
+    }
   } else {
-    return false;
+    if (foundObject) {
+      return returnVal ? foundObject[key] : true;
+    } else {
+      return false;
+    }
   }
+   
+
+  
 }
 // AST-JS
 function generateSequences(int) {
