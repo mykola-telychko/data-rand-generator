@@ -118,17 +118,42 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
       }
     
       // CONDITION
-
-      // if (pathname === '/') {
-      //   fs.readFile('index.html', 'utf8', (err, data) => {
-      //     if (err) {
-      //       res.writeHead(500, { 'Content-Type': 'text/plain' });
-      //       res.end('Internal Server Error');
-      //       console.error('Error reading index.html:', err);
-      //     } 
-      //   });
-      // } 
   }
+// } else if (  pathname == '/api/write' ) {
+} else if ( checkSubstring(pathname, '/api/write') ) {
+  // http://localhost:3001/api/write?key=%22asdasdfsfD%22
+        // console.error('api/write:', params);
+        console.error('api/write:', params.get('key'));
+
+        const content = params.get('key');
+        // const content = 'Some content!';
+        // if content already exists stop update
+        fs.writeFile('txt.txt', content, err => {
+          if (err) {
+            console.error(err);
+          } else {
+            // file written successfully
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.end('file written successfully' + content);
+          }
+        });
+
+} else if ( pathname == '/api/read' ) {
+
+        console.error('api/read:');
+        fs.readFile('txt.txt', 'utf8', (err, data) => {
+          if (err) {
+            res.writeHead(500, { 'Content-Type': 'text/plain' });
+            res.end('Internal Server Error');
+            console.error('Error reading index.html:', err);
+          } 
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(data);
+        });
+     
+
 } else if ( pathname == '/api/list' ) {
 
   // if ( people == 'ua' && !typeRes ) {
@@ -139,7 +164,6 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
         const filePath = path.join(__dirname, 'json-store', bigJSONnat);
 
-        // console.error('names:', bigJSONnat);
         // fs.readFile(`./json-store/${bigJSONnat}` , 'utf8', (err, data) => {
         fs.readFile(filePath, 'utf8', (err, data) => {
 
@@ -339,7 +363,10 @@ function generateSequences(int) {
 }
 // AST-JS
 const randomIndex = (arr) => { return Math.floor(Math.random() * arr.length);}
-
+// assistant js
+function checkSubstring(mainString, subString) {
+  return mainString.includes(subString);
+}
 
 function getMaxLenNum(){
     let arr = [];

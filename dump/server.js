@@ -104,16 +104,6 @@ const server = http.createServer((req, res) => {
       // res.end(error);
       res.end(JSON.stringify(numbers));
       // CONDITION
-
-      // if (pathname === '/') {
-      //   fs.readFile('index.html', 'utf8', (err, data) => {
-      //     if (err) {
-      //       res.writeHead(500, { 'Content-Type': 'text/plain' });
-      //       res.end('Internal Server Error');
-      //       console.error('Error reading index.html:', err);
-      //     } 
-      //   });
-      // } 
   }
 
 });
