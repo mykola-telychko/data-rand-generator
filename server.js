@@ -122,6 +122,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
 // } else if (  pathname == '/api/write' ) {
 } else if ( checkSubstring(pathname, '/api/write') ) {
   // http://localhost:3001/api/write?key=%22asdasdfsfD%22
+  // http://localhost:3001/api/read
         // console.error('api/write:', params);
         console.error('api/write:', params.get('key'));
 

@@ -14,6 +14,8 @@ check generator from kivi project
 - add restrictions (limit qty, and limit numlen<=>qty) to avoid killing the welzer
 - type=postindexes (codelen=5) need return max
 - add export button csv sql-insert 
+- not work in vercel pathname == '/api/read'
+
 - мати готові великі бази які порубані на шматки . можливо для них окремі юрли будуть 
 
 Transliteration: 
