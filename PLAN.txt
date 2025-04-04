@@ -1,5 +1,8 @@
 check generator from kivi project
 
+- research json-server: 
+https://github.com/typicode/json-server/blob/main/README.md
+https://www.npmjs.com/package/json-server
 
 - LOGIC ERROR findKeyInArrayOfObjects(natStore, people, false) && typeRes == 'all'
 
