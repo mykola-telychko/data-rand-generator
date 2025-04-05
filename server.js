@@ -251,7 +251,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           </tr>
             <tr><td>Ukraine</td><td>UA</td><td>13871920</td></tr>
             <tr><td>Belarus</td><td>BY</td><td>174960</td></tr>
-            <tr><td>Poland</td><td>PL</td></tr>
+            <tr><td>Poland</td><td>PL</td><td>819945</td> </tr>
             <tr><td>Czech Republic</td><td>CZ</td><td>662728</td></tr>
             <tr><td>Slovakia</td><td>SK</td><td>1145400</td></tr>
             <tr><td>Bulgaria</td><td>BG</td></tr>
@@ -261,7 +261,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <tr><td>North Macedonia</td><td>MC</td></tr>
             <tr><td>Serbia</td><td>SR</td></tr>
             <tr><td>Slovenia</td><td>SV</td><td>54520</td></tr>
-            <tr><td>TOTAL</td><td></td><td>18551960</td></tr>
+            <tr><td>TOTAL</td><td></td><td>19371905</td></tr>
 
             <tr><th>Items</th><td></td></tr>
             <tr><td> </td><td>MALE NAME</td></tr>
