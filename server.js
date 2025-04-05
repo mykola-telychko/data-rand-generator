@@ -28,7 +28,23 @@ const server = http.createServer((req, res) => {
     // search: '?number=integer&codelen=10&qty=2000',
     // const maxList = in config.json;
     // const maxNumbersJson = generateMaxNumbersJSON(1, 20);
+
+    // try in function 
+    if (pathname === '/favicon.ico') {
+      const faviconPath = path.join(__dirname, 'favicon.ico');
+      fs.readFile(faviconPath, (err, data) => {
+        if (err) {
+          res.writeHead(404);
+          res.end();
+          return;
+        }
+        res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+        res.end(data);
+      });
+      return;
+    }
 if (pathname === "/info" || pathname == '/') {
+
       const infoHtml = `<!DOCTYPE html>
       <html>
       <head>
@@ -38,6 +54,7 @@ if (pathname === "/info" || pathname == '/') {
               th, td { padding: 15px; text-align: center; }
               .tittle { color: red; } a {font-family: monospace;}
           </style>
+          <link rel="icon" href="favicon.ico" type="image/x-icon">
       </head>
       <body>
       <table>
@@ -77,6 +94,23 @@ if (pathname === "/info" || pathname == '/') {
 if ( pathname == '/api/generate' || pathname == '/' ) {
  if ((!numberType || !codeLen || !qty) && 
               (pathname == '/info' || pathname == '/') ) {
+
+                // favicon - start
+                if (pathname === '/favicon.ico') {
+                  const faviconPath = path.join(__dirname, 'favicon.ico');
+                  fs.readFile(faviconPath, (err, data) => {
+                    if (err) {
+                      res.writeHead(404);
+                      res.end();
+                      return;
+                    }
+                    res.writeHead(200, { 'Content-Type': 'image/x-icon' });
+                    res.end(data);
+                  });
+                  return;
+                }
+                // favicon - end 
+
                 // ???
                 res.writeHead(400, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ error: 'Missing required parameters' }));
@@ -157,12 +191,9 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
 
 } else if ( pathname == '/api/list' ) {
 
-  // if ( people == 'ua' && !typeRes ) {
-  // findKeyInArrayOfObjects(array, key, returnVal = false)
-
   if ( findKeyInArrayOfObjects(natStore, people, false, false) && !typeRes ) {
-
-        console.error('limit:', typeRes);
+  
+        // console.error('limit:', typeRes);
 
         const bigJSONnat = findKeyInArrayOfObjects(natStore, people, true);
         const filePath = path.join(__dirname, 'json-store', bigJSONnat);
@@ -227,6 +258,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
               th, td { padding: 15px; text-align: center; }
               .tittle { color: red; } a {font-family: monospace;} span {font-family: monospace;}
           </style>
+          <link rel="icon" href="favicon.ico" type="image/x-icon">
       </head>
       <body>
       <table>

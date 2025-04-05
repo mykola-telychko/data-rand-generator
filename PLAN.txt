@@ -4,6 +4,9 @@ check generator from kivi project
 https://github.com/typicode/json-server/blob/main/README.md
 https://www.npmjs.com/package/json-server
 
+
+- add DRG-logo for LIST (how work for /api/generate?)
+
 - LOGIC ERROR findKeyInArrayOfObjects(natStore, people, false) && typeRes == 'all'
 
 - getMaxLenNum() fn and rules 
