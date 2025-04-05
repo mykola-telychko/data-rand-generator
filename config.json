@@ -4,7 +4,7 @@
     
  }, 
  "jsonStore": [
-  { "pl": "pl_names.json" }, 
+  { "pl": "pl_names.json", "all": "pl_allcomb.json" }, 
   { "ua": "ua_names.json", "all": "ua_allcomb.json" },
   { "cz": "cz_names.json", "all": "cz_allcomb.json" },
   { "sv": "sv_names.json" },
