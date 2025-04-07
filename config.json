@@ -10,6 +10,7 @@
   { "sv": "sv_names.json" },
   { "sk": "sk_names.json" },
   { "cr": "cr_names.json", "all": "cr_allcomb.json" },
+  { "sb": "sb_names.json", "all": "sb_allcomb.json" },
   { "by": "by_names.json", "all": "by_allcomb.json" }
  ],
  "maxVal": {"1":"9", "2":"99","3":"999", "4":"9999",
