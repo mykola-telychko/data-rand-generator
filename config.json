@@ -7,6 +7,7 @@
   { "pl": "pl_names.json", "all": "pl_allcomb.json" }, 
   { "ua": "ua_names.json", "all": "ua_allcomb.json" },
   { "cz": "cz_names.json", "all": "cz_allcomb.json" },
+  { "mc": "mc_names.json", "all": "mc_allcomb.json" },
   { "sv": "sv_names.json" },
   { "sk": "sk_names.json" },
   { "cr": "cr_names.json", "all": "cr_allcomb.json" },
