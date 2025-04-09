@@ -4,6 +4,7 @@ check generator from kivi project
 https://github.com/typicode/json-server/blob/main/README.md
 https://www.npmjs.com/package/json-server
 
+- add pagination params and links for other parts
 
 - add DRG-logo for LIST (how work for /api/generate?)
 
