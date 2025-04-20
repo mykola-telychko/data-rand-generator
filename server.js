@@ -293,9 +293,9 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <tr><td>North Macedonia</td><td>MC</td></td><td>111230</td></tr>
             <tr><td>Serbia</td><td>SR</td><td>1056417</td></tr>
             <tr><td>Slovenia</td><td>SV</td><td>54520</td></tr>
-            <tr><td>Mixed</td><td>ALL</td><td>247752+6191130+3485691+2288265</td></tr>
+            <tr><td>Mixed</td><td>ALL</td><td>247752+6191130+3485691+2288265+2856030+3901260</td></tr>
 
-            <tr><td>TOTAL</td><td></td><td>33058209</td></tr>
+            <tr><td>TOTAL</td><td></td><td>39815499</td></tr>
 
             <tr><th>Items</th><td></td></tr>
             <tr><td> </td><td>MALE NAME</td></tr>
