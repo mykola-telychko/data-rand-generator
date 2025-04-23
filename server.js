@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
     // const maxNumbersJson = generateMaxNumbersJSON(1, 20);
 
     // try in function 
-    if (pathname === '/favicon.ico') {
+    if (pathname === '/favicon.ico' || pathname == '/api/api/favicon.ico') {
       const faviconPath = path.join(__dirname, 'favicon.ico');
       fs.readFile(faviconPath, (err, data) => {
         if (err) {
@@ -43,6 +43,7 @@ const server = http.createServer((req, res) => {
       });
       return;
     }
+
 if (pathname === "/info" || pathname == '/') {
 
       const infoHtml = `<!DOCTYPE html>
@@ -258,7 +259,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
               th, td { padding: 15px; text-align: center; }
               .tittle { color: red; } a {font-family: monospace;} span {font-family: monospace;}
           </style>
-          <link rel="icon" href="favicon.ico" type="image/x-icon">
+          <link rel="icon" href="api/favicon.ico" type="image/x-icon">
       </head>
       <body>
       <table>
