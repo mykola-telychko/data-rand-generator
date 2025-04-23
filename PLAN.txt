@@ -14,6 +14,9 @@ Slovenia
 
 check generator from kivi project
 
+research error (max size)
+https://vercel.com/guides/troubleshooting-function-250mb-limit
+
 - research json-server: 
 https://github.com/typicode/json-server/blob/main/README.md
 https://www.npmjs.com/package/json-server
