@@ -12,6 +12,12 @@ Serbia
 Slovenia
 
 
+
+- /api/list/mix - add list of all mixed names
+
+- need outer api/faicon and default
+
+
 check generator from kivi project
 
 research error (max size)

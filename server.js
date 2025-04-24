@@ -3,6 +3,8 @@ const urlMod = require('url');
 const fs = require('fs');
 const config = require('./config.json');
 const path = require('path');
+const axios = require('axios');
+
 // const filePath = path.join(__dirname, 'json-store', 'ua_names.json');
 
 const server = http.createServer((req, res) => {
@@ -22,9 +24,8 @@ const server = http.createServer((req, res) => {
 
     const { pathname } = urlMod.parse(req.url);
 
-    // console.log("\n");
+    // console.log(pathname, "\n");
     // console.log('params:::__', natStore);
-    // pathname: '/api/generate',
     // search: '?number=integer&codelen=10&qty=2000',
     // const maxList = in config.json;
     // const maxNumbersJson = generateMaxNumbersJSON(1, 20);
@@ -140,10 +141,10 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
                                 example: `http://${req.headers.host}/api/generate?number=integer&codelen=10&qty=20` }));
         return;
       } else if (numberType === 'float') {
-        res.setHeader('Content-Type', 'application/json');
-        const numbers = generateUniqueElArray(codeLen, numberType, qty, toFix, 'float');
-        // console.log('toFix::___', toFix, typeof toFix);
-        res.end(JSON.stringify(numbers));
+          res.setHeader('Content-Type', 'application/json');
+          const numbers = generateUniqueElArray(codeLen, numberType, qty, toFix, 'float');
+          // console.log('toFix::___', toFix, typeof toFix);
+          res.end(JSON.stringify(numbers));
       } else {
           // may provoke error 
           res.setHeader('Content-Type', 'application/json');
@@ -177,18 +178,49 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
 
 } else if ( pathname == '/api/read' ) {
 
-        console.error('api/read:');
-        fs.readFile('txt.txt', 'utf8', (err, data) => {
-          if (err) {
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end('Internal Server Error');
-            console.error('Error reading index.html:', err);
-          } 
-          res.statusCode = 200;
-          res.setHeader('Content-Type', 'application/json');
-          res.end(data);
-        });
+        // console.error('api/read:');
+        // fs.readFile('txt.txt', 'utf8', (err, data) => {
+        //   if (err) {
+        //     res.writeHead(500, { 'Content-Type': 'text/plain' });
+        //     res.end('Internal Server Error');
+        //     console.error('Error reading index.html:', err);
+        //   } 
+        //   res.statusCode = 200;
+        //   res.setHeader('Content-Type', 'application/json');
+        //   res.end(data);
+        // });
      
+ } else if (pathname == '/api/list/mix' ) {
+    axios.get('https://mykola-telychko.github.io/drg-store/ua_by_allcomb.json')
+    .then(response => {
+      const infoJson = JSON.stringify(response.data); // ensure it's a string
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(infoJson); // ✅ Only once
+    })
+    .catch(error => {
+      let errorMessage = "An error occurred:";
+
+      if (res.headersSent) return; // ✅ Prevent double send
+
+      if (error.response) {
+        errorMessage += ` Status: ${error.response.status}, Data: ${JSON.stringify(error.response.data)}`;
+        res.writeHead(error.response.status, { 'Content-Type': 'text/plain' });
+        res.end(errorMessage);
+      } else if (error.request) {
+        errorMessage += ` No Response Received: ${error.message}`;
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(errorMessage);
+      } else {
+        errorMessage += ` Request Setup Error: ${error.message}`;
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end(errorMessage);
+      }
+
+      console.error(errorMessage);
+    });
+
+  return; // -- Stop further code execution in the current block
 
 } else if ( pathname == '/api/list' ) {
 
@@ -226,7 +258,6 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
         console.error('ALL:', all, findKeyInArrayOfObjects(natStore, 'all', false));
         const filePath = path.join(__dirname, 'json-store', all);
 
-
         fs.readFile(filePath, 'utf8', (err, data) => {
           if (err) {
               if (err.code === 'ENOENT') {
@@ -241,15 +272,12 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           let {names, lastnames} = JSON.parse(data);
           // let list = combinator(names, lastnames);
           // console.error('all файлу:', list, typeof list);
-
-
           res.statusCode = 200;
           res.setHeader('Content-Type', 'application/json');
           // res.end( JSON.stringify({"list": list}));
           res.end(data);
       });
   } else {
-
       const infoHtml = `<!DOCTYPE html>
       <html>
       <head>
@@ -423,6 +451,24 @@ const randomIndex = (arr) => { return Math.floor(Math.random() * arr.length);}
 // assistant js
 function checkSubstring(mainString, subString) {
   return mainString.includes(subString);
+}
+
+async function fetchData(url) {
+  try {
+    const response = await axios.get(url);
+    // console.log('Response Data:', response.data);
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end(response.data);
+    return;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error Response:', error.response.status, error.response.data);
+    } else if (error.request) {
+      console.error('No Response Received:', error.message);
+    } else {
+      console.error('Request Setup Error:', error.message);
+    }
+  }
 }
 
 function getMaxLenNum(){
