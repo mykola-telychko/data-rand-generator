@@ -70,7 +70,7 @@ if (pathname === "/info" || pathname == '/') {
             <pre>http://${req.headers.host}/info</pre>
           <tr>
           <pre class="tittle">Lists:</pre>
-            <a target="_blank" href="http://${req.headers.host}/api/list">http://${req.headers.host}/api/list</a>
+            <a target="_blank" href="http://${req.headers.host}/api/list">http://${req.headers.host}/api/list</a> <br>
             <a target="_blank" href="https://mykola-telychko.github.io/drg-store/list.json">https://mykola-telychko.github.io/drg-store/list.json</a>
             <pre></pre>
           <tr>
