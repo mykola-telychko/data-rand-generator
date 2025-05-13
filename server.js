@@ -328,7 +328,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <tr><td>Slovenia</td><td>SV</td><td>54520</td></tr>
 
             <tr><td>TOTAL</td><td>ORIGIN</td><td>20 805 371</td></tr>
-            <tr><td>Mixed</td><td>ALL</td><td>27 977 500</td></tr>
+            <tr><td>Mixed</td><td>ALL</td><td>27-977-500</td></tr>
 
             <tr><td>TOTAL</td><td></td><td>47175529</td></tr>
 
