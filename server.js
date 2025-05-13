@@ -71,6 +71,7 @@ if (pathname === "/info" || pathname == '/') {
           <tr>
           <pre class="tittle">Lists:</pre>
             <a target="_blank" href="http://${req.headers.host}/api/list">http://${req.headers.host}/api/list</a>
+            <a target="_blank" href="https://mykola-telychko.github.io/drg-store/list.json">https://mykola-telychko.github.io/drg-store/list.json</a>
             <pre></pre>
           <tr>
             <th>Code length</th><th>Values</th><th>Qty combinations</th>
@@ -299,6 +300,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <pre>http://${req.headers.host}/api/generate?number=float&tofix=rnd&codelen=3&qty=10</pre>
 
           <pre class="tittle">Info:</pre>
+            <a target="_blank" href="https://mykola-telychko.github.io/drg-store/list.json">https://mykola-telychko.github.io/drg-store/list.json</a>
             <a target="_blank" href="http://${req.headers.host}/info">http://${req.headers.host}/info</a>
               <span> or http://${req.headers.host}</span>
             <pre></pre>
