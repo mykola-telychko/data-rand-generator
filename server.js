@@ -307,7 +307,7 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
           <pre class="tittle">Lists:</pre>
             <a target="_blank" href="https://mykola-telychko.github.io/drg-store/list.json">
               https://mykola-telychko.github.io/drg-store/list.json
-            </a><br>
+            </a><br><br>
             <pre>http://${req.headers.host}/api/list</pre>
             <pre>http://${req.headers.host}/api/list?people=ua</pre>
             <pre>http://${req.headers.host}/api/list?people=pl</pre>
@@ -326,7 +326,9 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <tr><td>North Macedonia</td><td>MC</td></td><td>111230</td></tr>
             <tr><td>Serbia</td><td>SR</td><td>1056417</td></tr>
             <tr><td>Slovenia</td><td>SV</td><td>54520</td></tr>
-            <tr><td>Mixed</td><td>ALL</td><td>18970128+1016242+6343788</td></tr>
+
+            <tr><td>TOTAL</td><td>ORIGIN</td><td>20 805 371</td></tr>
+            <tr><td>Mixed</td><td>ALL</td><td>27 977 500</td></tr>
 
             <tr><td>TOTAL</td><td></td><td>47175529</td></tr>
 
