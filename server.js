@@ -305,7 +305,9 @@ if ( pathname == '/api/generate' || pathname == '/' ) {
             <pre></pre>
           <tr>
           <pre class="tittle">Lists:</pre>
-            <a target="_blank" href="https://mykola-telychko.github.io/drg-store/list.json">https://mykola-telychko.github.io/drg-store/list.json</a>
+            <a target="_blank" href="https://mykola-telychko.github.io/drg-store/list.json">
+              https://mykola-telychko.github.io/drg-store/list.json
+            </a><br>
             <pre>http://${req.headers.host}/api/list</pre>
             <pre>http://${req.headers.host}/api/list?people=ua</pre>
             <pre>http://${req.headers.host}/api/list?people=pl</pre>
