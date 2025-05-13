@@ -11,6 +11,8 @@ North Macedonia
 Serbia	
 Slovenia
 
+- чи не вийшло накладки з Ukraine UA 13871920 - чи є вона в дрг стор.(догенерувати ще mix країн)
+- add to country-table links - for hand-check 
 
 - add check  total fn from drg-store
 - /api/list/mix - add list of all mixed names
