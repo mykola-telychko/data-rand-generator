@@ -7,6 +7,78 @@ const axios = require('axios');
 
 // const filePath = path.join(__dirname, 'json-store', 'ua_names.json');
 
+/**
+ * HTTP request handler for the data-rand-generator server.
+ *
+ * This handler inspects the request URL and query parameters and responds to
+ * multiple endpoints. It performs synchronous routing and asynchronous I/O
+ * (file system and HTTP via axios). Responses are returned as JSON, HTML, or
+ * static favicon bytes depending on the route.
+ *
+ * Supported routes and behavior:
+ *  - /favicon.ico (and /api/api/favicon.ico)
+ *      * Serves a local 'favicon.ico' file from __dirname.
+ *      * 200 with 'image/x-icon' on success, 404 if file missing.
+ *
+ *  - /info and /
+ *      * Returns an HTML info page describing API usage, examples, and tables.
+ *      * 200 with 'text/html'.
+ *
+ *  - /api/generate (also matched for '/')
+ *      * Query parameters:
+ *          - number: 'integer' | 'float' (required for generation endpoints)
+ *          - codelen: integer code length (required for generation endpoints)
+ *          - qty: integer number of items to generate (required)
+ *          - tofix: number of decimal places or 'rnd' for random floats (optional; used for float)
+ *          - type: when 'passcodes' returns passcodes & tpcode objects
+ *      * Behavior:
+ *          - Validates presence of required parameters; returns 400 with JSON error if missing.
+ *          - For type=passcodes returns JSON: { idpas: [...], tpcode: [...] }.
+ *          - For number=float returns an array of generated floats honoring 'tofix' (or random if 'rnd').
+ *          - For number=integer returns an array of generated integer-style codes (zero-padded to codelen).
+ *      * Uses helper functions: generateUniqueElArray(...) to create unique elements.
+ *      * 200 with 'application/json' on success; 400 on bad params; includes example link in some validation errors.
+ *
+ *  - /api/write (checked via substring match)
+ *      * Writes query param 'key' content to a local 'txt.txt' file using fs.writeFile.
+ *      * Responds with 200 and a JSON/plain confirmation message on success.
+ *      * Errors logged to console; no explicit JSON error body for write failures (fs error is logged).
+ *
+ *  - /api/read
+ *      * Intended to read 'txt.txt' and return its contents (code present but commented out).
+ *
+ *  - /api/list/mix
+ *      * Proxies a remote JSON file via axios.get('https://mykola-telychko.github.io/drg-store/ua_by_allcomb.json').
+ *      * Returns the remote JSON with 200 and 'application/json', or a textual error with appropriate status on failure.
+ *      * Ensures it does not attempt to write headers twice (checks res.headersSent).
+ *
+ *  - /api/list
+ *      * Query parameters:
+ *          - people: country key (e.g., 'ua', 'pl') that is looked up in config.jsonStore
+ *          - type: when 'all', returns a combined JSON for names+lastnames
+ *      * Behavior:
+ *          - If a specific people key is found, reads a corresponding JSON file from './json-store/<filename>' and returns it.
+ *          - If type='all', reads a combined file and returns it (parsing may occur to extract names/lastnames).
+ *          - If no valid people param provided, returns an HTML info page describing available lists.
+ *      * 200 with 'application/json' for file content; 404 or 500 on file errors.
+ *
+ * Common implementation notes:
+ *  - Parses incoming URL using new URL(req.url, `http://${req.headers.host}`) and url.parse for pathname.
+ *  - reads static JSON files from a './json-store' directory using path.join(__dirname, ...).
+ *  - Uses helper utilities referenced in module scope: config.jsonStore, generateUniqueElArray, findKeyInArrayOfObjects, generateMaxNumbersJSON, combinator, axios, fs, path, urlMod.
+ *  - Status codes used: 200 (OK), 400 (Bad Request / missing params), 404 (Not Found for files or favicon), 500 (Server / axios errors).
+ *  - Responses set appropriate Content-Type headers: 'application/json', 'text/html', 'image/x-icon', or 'text/plain'.
+ *  - Side effects: file reads/writes and outbound HTTP requests; console logging for errors and debug info.
+ *
+ * Error handling:
+ *  - Returns JSON error objects for many validation failures and 400 responses for missing/invalid query params.
+ *  - File-system read/write errors return 404 or 500 depending on err.code; axios/network errors produce textual error messages and logging.
+ *
+ * @param {import("http").IncomingMessage} req - The incoming HTTP request.
+ * @param {import("http").ServerResponse} res - The HTTP response to write to.
+ * @returns {void} This handler writes to the response and does not return a value.
+ * @throws Will not throw synchronously; asynchronous errors are handled by sending appropriate HTTP responses and logging.
+ */
 const server = http.createServer((req, res) => {
     const url = new URL(req.url, `http://${req.headers.host}`);
     const params = new URLSearchParams(url.search);
